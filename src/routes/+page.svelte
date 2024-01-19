@@ -5,6 +5,9 @@
 	import { tick } from 'svelte';
 	import { Confetti } from 'svelte-confetti';
 	import { superForm } from 'sveltekit-superforms/client';
+	import toast, { Toaster } from 'svelte-french-toast';
+	import { mediaQuery } from 'svelte-legos';
+	import { cn } from '$lib/utils';
 
 	export let data: PageData;
 
@@ -13,7 +16,13 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Input from '$lib/components/ui/input/input.svelte';
 	import Card from '$lib/components/Card.svelte';
-	import { cn } from '$lib/utils';
+
+	import * as Dialog from '$lib/components/ui/dialog';
+	import * as Drawer from '$lib/components/ui/drawer';
+	import { Label } from '$lib/components/ui/label';
+
+	let open = false;
+	const isDesktop = mediaQuery('(min-width: 768px)');
 
 	let success: boolean = false;
 	let confetti: boolean = false;
@@ -30,20 +39,15 @@
 		onUpdated(event) {
 			success = true;
 			trigger();
+			toast.success(`Success, you're on the waitlist!`, { position: 'bottom-center' });
 		}
 	});
-
-	// function submitForm(event: KeyboardEvent) {
-	// 	if (event.key === 'Enter') {
-	// 		form.submit();
-	// 	}
-	// }
 </script>
 
 {#if confetti}
 	<div
 		style="position: fixed; top: -50px; left: 0; height: 100vh; width: 100vw; display: flex; justify-content: center; overflow: hidden;"
-		class="z-50"
+		class="pointer-events-none z-50"
 	>
 		<Confetti
 			x={[-5, 5]}
@@ -77,7 +81,8 @@
 		<div class="flex items-center justify-between">
 			<Brand />
 			<a
-				href="https://twitter.com/blah"
+				href="https://twitter.com/buildpubnetwork"
+				target="_blank"
 				class="group flex items-center justify-center gap-4 font-semibold text-neutral-600"
 			>
 				<div
@@ -119,40 +124,123 @@
 			<p class="text-lg font-medium text-neutral-600">
 				A curated list & community of indie hackers and founders who are building in public
 			</p>
-			<form
-				method="POST"
-				class="flex max-w-sm flex-col gap-4 md:max-w-none md:flex-row"
-				use:enhance
-			>
-				<Input
-					type="email"
-					name="email"
-					bind:value={$form.email}
-					class="h-full w-full bg-white"
-					placeholder="Your best email address"
-					aria-invalid={$errors.email ? 'true' : undefined}
-					{...$constraints.email}
-				/>
-				{#if $errors.email}<span class="text-red-700">{$errors.email}</span>{/if}
-				<div>
-					<Button type="submit" class="group flex w-full shrink-0 gap-2 md:w-fit" size="lg">
-						Join the waitlist <div class="block group-hover:animate-ping">
-							<img src="/images/salute.png" class="h-4 min-h-4 w-4 min-w-4" alt="A salute emoji" />
-						</div></Button
-					>
-					{#if confetti}
-						<Confetti
-							y={[-1, 1]}
-							x={[-1, 1]}
-							noGravity
-							duration={750}
-							amount={20}
-							size={25}
-							colorArray={['url(/images/salute.png)']}
-						/>
-					{/if}
-				</div>
-			</form>
+			{#if !success}
+				<form
+					method="POST"
+					class="flex max-w-sm flex-col gap-4 md:max-w-none md:flex-row"
+					use:enhance
+				>
+					<Input
+						type="email"
+						name="email"
+						bind:value={$form.email}
+						class="h-full w-full bg-white"
+						placeholder="Your best email address"
+						aria-invalid={$errors.email ? 'true' : undefined}
+						{...$constraints.email}
+					/>
+					{#if $errors.email}<span class="text-red-700">{$errors.email}</span>{/if}
+					<div>
+						{#if $isDesktop}
+							<Dialog.Root bind:open>
+								<Dialog.Trigger asChild let:builder>
+									<Button
+										type="submit"
+										variant="default"
+										builders={[builder]}
+										class="group flex w-full shrink-0 gap-2 md:w-fit"
+										size="lg"
+									>
+										Join the waitlist <div class="block group-hover:animate-ping">
+											<img
+												src="/images/salute.png"
+												class="h-4 min-h-4 w-4 min-w-4"
+												alt="A salute emoji"
+											/>
+										</div></Button
+									>
+								</Dialog.Trigger>
+								<Dialog.Content class="sm:max-w-[425px]">
+									<Dialog.Header>
+										<Dialog.Title>Edit profile</Dialog.Title>
+										<Dialog.Description>
+											Make changes to your profile here. Click save when you're done.
+										</Dialog.Description>
+									</Dialog.Header>
+									<form class="grid items-start gap-4">
+										<div class="grid gap-2">
+											<Label for="email">Email</Label>
+											<Input type="email" id="email" value="shadcn@example.com" />
+										</div>
+										<div class="grid gap-2">
+											<Label for="username">Username</Label>
+											<Input id="username" value="@shadcn" />
+										</div>
+										<Button type="submit">Save changes</Button>
+									</form>
+								</Dialog.Content>
+							</Dialog.Root>
+						{:else}
+							<Drawer.Root bind:open>
+								<Drawer.Trigger asChild let:builder>
+									<Button
+										type="submit"
+										variant="default"
+										builders={[builder]}
+										class="group flex w-full shrink-0 gap-2 md:w-fit"
+										size="lg"
+									>
+										Join the waitlist <div class="block group-hover:animate-ping">
+											<img
+												src="/images/salute.png"
+												class="h-4 min-h-4 w-4 min-w-4"
+												alt="A salute emoji"
+											/>
+										</div></Button
+									>
+								</Drawer.Trigger>
+								<Drawer.Content>
+									<Drawer.Header class="text-left">
+										<Drawer.Title>Join the waitlist</Drawer.Title>
+										<Drawer.Description>
+											Almost there, we need a couple more details.
+										</Drawer.Description>
+									</Drawer.Header>
+									<form class="grid items-start gap-4 px-4">
+										<div class="grid gap-2">
+											<Label for="email">Email</Label>
+											<Input type="email" id="email" value="shadcn@example.com" />
+										</div>
+										<div class="grid gap-2">
+											<Label for="username">Username</Label>
+											<Input id="username" value="@shadcn" />
+										</div>
+										<Button type="submit">Save changes</Button>
+									</form>
+									<Drawer.Footer class="pt-2">
+										<Drawer.Close asChild let:builder>
+											<Button variant="outline" builders={[builder]}>Cancel</Button>
+										</Drawer.Close>
+									</Drawer.Footer>
+								</Drawer.Content>
+							</Drawer.Root>
+						{/if}
+						{#if confetti}
+							<Confetti
+								y={[-1, 1]}
+								x={[-1, 1]}
+								noGravity
+								duration={750}
+								amount={20}
+								size={25}
+								colorArray={['url(/images/salute.png)']}
+							/>
+						{/if}
+					</div>
+				</form>
+			{:else}
+				<p>You're in!</p>
+			{/if}
 			<div class="w-full max-w-sm md:max-w-none">
 				<div
 					class="ml-auto flex w-fit items-center justify-center gap-4 rounded-full border border-neutral-200 px-4 py-3"
@@ -174,9 +262,6 @@
 					<p class="text-sm font-semibold text-neutral-500">+57</p>
 				</div>
 			</div>
-			<div class={cn(success ? 'flex' : 'hidden')}>
-				<p>You're in!</p>
-			</div>
 		</div>
 		<div class="b-neutral-200 flex w-fit items-center gap-4 rounded-full border p-4 pr-5">
 			<img
@@ -186,7 +271,7 @@
 			/>
 			<a
 				href="https://clips.twitch.tv/TenderTenaciousOrangeTinyFace-viSaxu39fnga-uxb"
-				rel="nofollow"
+				target="_blank"
 				class="flex items-center justify-center gap-2 text-sm font-semibold text-neutral-500"
 				>Built in public, live on X & Twitch, by <span class="underline underline-offset-2"
 					>Charlie</span
@@ -210,3 +295,5 @@
 		<img src={'/images/grids.png'} alt="" class="skew max-w-[800px]" />
 	</div>
 </div>
+
+<Toaster />
