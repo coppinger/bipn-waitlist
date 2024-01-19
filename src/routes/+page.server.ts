@@ -3,7 +3,11 @@ import { z } from 'zod';
 import { message, superValidate } from 'sveltekit-superforms/server';
 
 const schema = z.object({
-	email: z.string().email()
+	name: z.string(),
+	email: z.string().email(),
+	twitterHandle: z.string()
+	// .max(15)
+	// .regex(/^[a-zA-Z0-9_]*$/)
 });
 
 export const load = async () => {
@@ -17,30 +21,15 @@ export const load = async () => {
 export const actions = {
 	default: async ({ request }) => {
 		const form = await superValidate(request, schema);
-
-		console.log(form.data.email);
+		console.log('POST', form);
 
 		// Convenient validation check:
 		if (!form.valid) {
 			// Again, return { form } and things will just work.
+			console.log('fail :(');
+
 			return fail(400, { form });
 		}
-
-		// TODO: Do something with the validated form.data
-		const data = {
-			Email: form.data.email,
-			Created: 'x-sheetmonkey-current-date-time'
-		};
-
-		fetch('https://api.sheetmonkey.io/form/stUmUjFHLZzdgZyinr8Vxm', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(data)
-		}).then((result) => {
-			// return message('success', 'Thanks for signing up!')
-		});
 
 		// Yep, return { form } here too
 		return { form };

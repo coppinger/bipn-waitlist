@@ -5,6 +5,8 @@
 	import { tick } from 'svelte';
 	import { Confetti } from 'svelte-confetti';
 	import { superForm } from 'sveltekit-superforms/client';
+	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
+
 	import toast, { Toaster } from 'svelte-french-toast';
 	import { mediaQuery } from 'svelte-legos';
 	import { cn } from '$lib/utils';
@@ -36,13 +38,17 @@
 	// Client API:
 	const { form, errors, constraints, enhance } = superForm(data.form, {
 		resetForm: true,
-		onUpdated(event) {
+		onUpdated() {
 			success = true;
 			trigger();
 			toast.success(`Success, you're on the waitlist!`, { position: 'bottom-center' });
 		}
 	});
 </script>
+
+<!-- <div class="absolute z-50 top-0 left-0 w-full h-full">
+	<SuperDebug data={$form} />
+</div> -->
 
 {#if confetti}
 	<div
@@ -74,7 +80,7 @@
 	</div>
 {/if}
 
-<div class="min-w-screen max-w-screen flex max-h-screen min-h-screen">
+<div class="min-w-screen max-w-screen flex max-h-screen min-h-screen relative">
 	<div
 		class="relative z-10 flex min-h-full w-full flex-col justify-between bg-neutral-50 p-6 md:p-20 lg:w-2/3 xl:w-1/2"
 	>
@@ -124,11 +130,13 @@
 			<p class="text-lg font-medium text-neutral-600">
 				A curated list & community of indie hackers and founders who are building in public
 			</p>
+			{#if $errors.name}<span class="invalid">{$errors.name}</span>{/if}
+			{#if $errors.twitterHandle}<span class="invalid">{$errors.name}</span>{/if}
+			{#if $errors.email}<span class="invalid">{$errors.name}</span>{/if}
 			{#if !success}
 				<div class="flex max-w-sm flex-col gap-4 md:max-w-none md:flex-row">
 					<Input
 						type="email"
-						name="email"
 						bind:value={$form.email}
 						class="h-full w-full bg-white"
 						placeholder="Your best email address"
@@ -163,21 +171,56 @@
 								</Dialog.Trigger>
 								<Dialog.Content class="sm:max-w-[425px]">
 									<Dialog.Header>
-										<Dialog.Title>Edit profile</Dialog.Title>
+										<Dialog.Title>Join the waitlist</Dialog.Title>
 										<Dialog.Description>
-											Make changes to your profile here. Click save when you're done.
+											You're almost in, we need a couple more details.
 										</Dialog.Description>
 									</Dialog.Header>
-									<form class="grid items-start gap-4" use:enhance>
+									<form class="grid items-start gap-4" use:enhance method="POST">
 										<div class="grid gap-2">
-											<Label for="email">Email</Label>
-											<Input type="email" id="email" value="shadcn@example.com" />
+											<Label for="name">Name<span class="text-red-600"> *</span></Label>
+											<Input
+												id="name"
+												name="name"
+												bind:value={$form.name}
+												placeholder="Charlie Coppinger"
+												required={true}
+											/>
 										</div>
 										<div class="grid gap-2">
-											<Label for="username">Username</Label>
-											<Input id="username" value="@shadcn" />
+											<Label for="twitterHandle">Twitter/X Username</Label>
+											<Input
+												id="twitterHandle"
+												name="twitterHandle"
+												bind:value={$form.twitterHandle}
+												placeholder="TheCoppinger"
+												required={false}
+											/>
 										</div>
-										<Button type="submit">Save changes</Button>
+										<div class="grid gap-2">
+											<Label for="email">Email<span class="text-red-600"> *</span></Label>
+											<Input type="email" id="email" name="email" bind:value={$form.email} />
+										</div>
+										<Button
+											type="submit"
+											variant="default"
+											class="group flex w-full shrink-0 gap-2 "
+											size="lg"
+										>
+											Submit
+											<div class="relative block">
+												<img
+													src="/images/salute.png"
+													class="absolute h-4 min-h-4 w-4 min-w-4 group-hover:animate-ping"
+													alt="A salute emoji"
+												/>
+												<img
+													src="/images/salute.png"
+													class="h-4 min-h-4 w-4 min-w-4"
+													alt="A salute emoji"
+												/>
+											</div></Button
+										>
 									</form>
 								</Dialog.Content>
 							</Dialog.Root>
@@ -207,16 +250,51 @@
 											Almost there, we need a couple more details.
 										</Drawer.Description>
 									</Drawer.Header>
-									<form class="grid items-start gap-4 px-4" use:enhance>
+									<form class="grid items-start gap-4 px-4" use:enhance method="POST">
 										<div class="grid gap-2">
-											<Label for="email">Email</Label>
-											<Input type="email" id="email" value="shadcn@example.com" />
+											<Label for="name">Name<span class="text-red-600"> *</span></Label>
+											<Input
+												id="name"
+												name="name"
+												bind:value={$form.name}
+												placeholder="Charlie Coppinger"
+												required={true}
+											/>
 										</div>
 										<div class="grid gap-2">
-											<Label for="username">Username</Label>
-											<Input id="username" value="@shadcn" />
+											<Label for="twitterHandle">Twitter/X Username</Label>
+											<Input
+												id="twitterHandle"
+												name="twitterHandle"
+												bind:value={$form.twitterHandle}
+												placeholder="TheCoppinger"
+												required={false}
+											/>
 										</div>
-										<Button type="submit">Save changes</Button>
+										<div class="grid gap-2">
+											<Label for="email">Email<span class="text-red-600"> *</span></Label>
+											<Input type="email" id="email" name="email" bind:value={$form.email} />
+										</div>
+										<Button
+											type="submit"
+											variant="default"
+											class="group flex w-full shrink-0 gap-2 "
+											size="lg"
+										>
+											Submit
+											<div class="relative block">
+												<img
+													src="/images/salute.png"
+													class="absolute h-4 min-h-4 w-4 min-w-4 group-hover:animate-ping"
+													alt="A salute emoji"
+												/>
+												<img
+													src="/images/salute.png"
+													class="h-4 min-h-4 w-4 min-w-4"
+													alt="A salute emoji"
+												/>
+											</div></Button
+										>
 									</form>
 									<Drawer.Footer class="pt-2">
 										<Drawer.Close asChild let:builder>
@@ -295,13 +373,19 @@
 	<div
 		class="lg:1/3 hidden items-center justify-center overflow-hidden bg-neutral-100 lg:flex xl:w-1/2"
 	>
-		<div class="skew grid max-w-[800px] grid-cols-2 gap-8">
+		<div class="skew grid max-w-[1600px] grid-cols-3 gap-8">
 			{#each { length: 8 } as _, i}
+				<div
+					class="rounded-lg shadow-lg transition-all delay-100 ease-linear hover:scale-105 hover:shadow-2xl w-full h-full box-border border-2 border-neutral-200 border-1 border-dashed"
+				></div>
 				<img
 					class="rounded-lg shadow-lg transition-all delay-100 ease-linear hover:scale-105 hover:shadow-2xl"
 					src={`/images/profile-card-stripped-${i + 1}.png`}
 					alt=""
 				/>
+				<div
+					class="rounded-lg shadow-lg transition-all delay-100 ease-linear hover:scale-105 hover:shadow-2xl w-full h-full box-border border-2 border-neutral-200 border-1 border-dashed"
+				></div>
 			{/each}
 		</div>
 	</div>
