@@ -1,6 +1,9 @@
+import type { Actions } from './$types';
+
 import { fail } from '@sveltejs/kit';
 import { z } from 'zod';
 import { message, superValidate } from 'sveltekit-superforms/server';
+import { supabase } from '$lib/index';
 
 const schema = z.object({
 	name: z.string(),
@@ -18,7 +21,7 @@ export const load = async () => {
 	return { form };
 };
 
-export const actions = {
+export const actions: Actions = {
 	default: async ({ request }) => {
 		const form = await superValidate(request, schema);
 		console.log('POST', form);
@@ -30,6 +33,37 @@ export const actions = {
 
 			return fail(400, { form });
 		}
+
+		const { data: duplicateCheckData, error: duplicateCheckError } = await supabase
+			.from('waitlist')
+			.select('email')
+			.eq('email', form.data.email);
+
+		// if (duplicateCheckData && duplicateCheckError?.code != 'PGRST116') {
+		// 	return fail(400, { form, message: 'Error from Supabase, something went wrong' });
+		// }
+
+		// The request works, and thus the email already exists
+
+		console.log('errror:', duplicateCheckData);
+
+		if (!duplicateCheckError && duplicateCheckData.length != 0) {
+			console.log('duplicate');
+
+			return message(form, "It looks like you're already on the waitlist!");
+		}
+
+		const { data, error } = await supabase.from('waitlist').insert({
+			name: form.data.name,
+			twitter_handle: form.data.twitterHandle,
+			email: form.data.email
+		});
+
+		if (error) {
+			return console.log(error);
+		}
+
+		console.log(data);
 
 		// Yep, return { form } here too
 		return { form };
