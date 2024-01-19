@@ -125,11 +125,7 @@
 				A curated list & community of indie hackers and founders who are building in public
 			</p>
 			{#if !success}
-				<form
-					method="POST"
-					class="flex max-w-sm flex-col gap-4 md:max-w-none md:flex-row"
-					use:enhance
-				>
+				<div class="flex max-w-sm flex-col gap-4 md:max-w-none md:flex-row">
 					<Input
 						type="email"
 						name="email"
@@ -151,7 +147,12 @@
 										class="group flex w-full shrink-0 gap-2 md:w-fit"
 										size="lg"
 									>
-										Join the waitlist <div class="block group-hover:animate-ping">
+										Join the waitlist <div class="relative block">
+											<img
+												src="/images/salute.png"
+												class="absolute h-4 min-h-4 w-4 min-w-4 group-hover:animate-ping"
+												alt="A salute emoji"
+											/>
 											<img
 												src="/images/salute.png"
 												class="h-4 min-h-4 w-4 min-w-4"
@@ -167,7 +168,7 @@
 											Make changes to your profile here. Click save when you're done.
 										</Dialog.Description>
 									</Dialog.Header>
-									<form class="grid items-start gap-4">
+									<form class="grid items-start gap-4" use:enhance>
 										<div class="grid gap-2">
 											<Label for="email">Email</Label>
 											<Input type="email" id="email" value="shadcn@example.com" />
@@ -206,7 +207,7 @@
 											Almost there, we need a couple more details.
 										</Drawer.Description>
 									</Drawer.Header>
-									<form class="grid items-start gap-4 px-4">
+									<form class="grid items-start gap-4 px-4" use:enhance>
 										<div class="grid gap-2">
 											<Label for="email">Email</Label>
 											<Input type="email" id="email" value="shadcn@example.com" />
@@ -237,7 +238,7 @@
 							/>
 						{/if}
 					</div>
-				</form>
+				</div>
 			{:else}
 				<p>You're in!</p>
 			{/if}
