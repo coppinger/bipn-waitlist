@@ -76,7 +76,7 @@
 
 <div class="min-w-screen max-w-screen flex max-h-screen min-h-screen">
 	<div
-		class="relative z-10 flex min-h-full w-full flex-col justify-between bg-neutral-50 p-6 md:p-20 lg:w-1/2"
+		class="relative z-10 flex min-h-full w-full flex-col justify-between bg-neutral-50 p-6 md:p-20 lg:w-2/3 xl:w-1/2"
 	>
 		<div class="flex items-center justify-between">
 			<Brand />
@@ -292,8 +292,18 @@
 			</a>
 		</div>
 	</div>
-	<div class="hidden w-1/2 items-center justify-center overflow-hidden bg-neutral-100 lg:flex">
-		<img src={'/images/grids.png'} alt="" class="skew max-w-[800px]" />
+	<div
+		class="lg:1/3 hidden items-center justify-center overflow-hidden bg-neutral-100 lg:flex xl:w-1/2"
+	>
+		<div class="skew grid max-w-[800px] grid-cols-2 gap-8">
+			{#each { length: 8 } as _, i}
+				<img
+					class="rounded-lg shadow-lg transition-all delay-100 ease-linear hover:scale-105 hover:shadow-2xl"
+					src={`/images/profile-card-stripped-${i + 1}.png`}
+					alt=""
+				/>
+			{/each}
+		</div>
 	</div>
 </div>
 
