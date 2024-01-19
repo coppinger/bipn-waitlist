@@ -33,11 +33,11 @@
 		}
 	});
 
-	function submitForm(event: KeyboardEvent) {
-		if (event.key === 'Enter') {
-			form.submit();
-		}
-	}
+	// function submitForm(event: KeyboardEvent) {
+	// 	if (event.key === 'Enter') {
+	// 		form.submit();
+	// 	}
+	// }
 </script>
 
 {#if confetti}
@@ -70,25 +70,25 @@
 	</div>
 {/if}
 
-<div class="min-w-screen flex min-h-screen max-h-screen max-w-screen">
+<div class="min-w-screen max-w-screen flex max-h-screen min-h-screen">
 	<div
-		class="relative z-10 flex min-h-full lg:w-1/2 w-full flex-col justify-between bg-neutral-50 md:p-20 p-6"
+		class="relative z-10 flex min-h-full w-full flex-col justify-between bg-neutral-50 p-6 md:p-20 lg:w-1/2"
 	>
-		<div class="flex justify-between items-center">
+		<div class="flex items-center justify-between">
 			<Brand />
 			<a
 				href="https://twitter.com/blah"
-				class="flex gap-4 justify-center items-center text-neutral-600 font-semibold group"
+				class="group flex items-center justify-center gap-4 font-semibold text-neutral-600"
 			>
 				<div
-					class="border border-neutral-200 rounded-lg p-2 flex items-center justify-center group-hover:bg-[#1DA1F2] transition-all ease-linear delay-100"
+					class="flex items-center justify-center rounded-lg border border-neutral-200 p-2 transition-all delay-100 ease-linear group-hover:bg-[#1DA1F2]"
 				>
 					<svg
 						width="21"
 						height="20"
 						viewBox="0 0 21 20"
 						fill="none"
-						class=" fill-neutral-500 group-hover:fill-white transition-all ease-linear delay-100"
+						class=" fill-neutral-500 transition-all delay-100 ease-linear group-hover:fill-white"
 						xmlns="http://www.w3.org/2000/svg"
 					>
 						<path
@@ -121,23 +121,23 @@
 			</p>
 			<form
 				method="POST"
-				class="flex md:flex-row flex-col gap-4 max-w-sm md:max-w-none"
+				class="flex max-w-sm flex-col gap-4 md:max-w-none md:flex-row"
 				use:enhance
 			>
 				<Input
 					type="email"
 					name="email"
 					bind:value={$form.email}
-					class="w-full h-full bg-white"
+					class="h-full w-full bg-white"
 					placeholder="Your best email address"
 					aria-invalid={$errors.email ? 'true' : undefined}
 					{...$constraints.email}
 				/>
 				{#if $errors.email}<span class="text-red-700">{$errors.email}</span>{/if}
-				<div class="md:w-full">
-					<Button type="submit" class="md:w-fit w-full flex gap-2 group shrink-0" size="lg">
+				<div>
+					<Button type="submit" class="group flex w-full shrink-0 gap-2 md:w-fit" size="lg">
 						Join the waitlist <div class="block group-hover:animate-ping">
-							<img src="/images/salute.png" class="h-4 w-4 min-h-4 min-w-4" alt="A salute emoji" />
+							<img src="/images/salute.png" class="h-4 min-h-4 w-4 min-w-4" alt="A salute emoji" />
 						</div></Button
 					>
 					{#if confetti}
@@ -155,7 +155,7 @@
 			</form>
 			<div class="w-full max-w-sm md:max-w-none">
 				<div
-					class="flex gap-4 justify-center items-center border border-neutral-200 rounded-full px-4 py-3 w-fit ml-auto"
+					class="ml-auto flex w-fit items-center justify-center gap-4 rounded-full border border-neutral-200 px-4 py-3"
 				>
 					<div class="h-4 w-4">
 						<img src="/images/salute.png" alt="" />
@@ -165,9 +165,9 @@
 					<ul class="flex -space-x-2">
 						{#each { length: 5 } as _, i}
 							<li
-								class="h-6 w-6 border-2 box-content border-neutral-50 overflow-hidden rounded-full"
+								class="box-content h-6 w-6 overflow-hidden rounded-full border-2 border-neutral-50"
 							>
-								<img class="w-full h-full" src={`/images/pfp-0${i + 1}.png`} alt="" />
+								<img class="h-full w-full" src={`/images/pfp-0${i + 1}.png`} alt="" />
 							</li>
 						{/each}
 					</ul>
@@ -187,7 +187,7 @@
 			<a
 				href="https://clips.twitch.tv/TenderTenaciousOrangeTinyFace-viSaxu39fnga-uxb"
 				rel="nofollow"
-				class="text-sm font-semibold text-neutral-500 flex gap-2 items-center justify-center"
+				class="flex items-center justify-center gap-2 text-sm font-semibold text-neutral-500"
 				>Built in public, live on X & Twitch, by <span class="underline underline-offset-2"
 					>Charlie</span
 				>
@@ -206,7 +206,7 @@
 			</a>
 		</div>
 	</div>
-	<div class="hidden lg:flex w-1/2 items-center justify-center overflow-hidden bg-neutral-100">
+	<div class="hidden w-1/2 items-center justify-center overflow-hidden bg-neutral-100 lg:flex">
 		<img src={'/images/grids.png'} alt="" class="skew max-w-[800px]" />
 	</div>
 </div>
