@@ -113,7 +113,7 @@
 						/>
 					</svg>
 				</div>
-				<span class="hidden sm:block">@buildpubnet</span>
+				<span class="hidden sm:block">@buildpubnetwork</span>
 				<svg
 					width="9"
 					height="10"
