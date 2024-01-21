@@ -381,7 +381,7 @@
 							</li>
 						{/each}
 					</ul>
-					<p class="text-sm font-semibold text-neutral-500">+57</p>
+					<!-- <p class="text-sm font-semibold text-neutral-500">+57</p> -->
 				</div>
 			</div>
 		</div>
