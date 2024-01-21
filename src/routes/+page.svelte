@@ -98,7 +98,7 @@
 	</div>
 {/if}
 
-<div class="min-w-screen max-w-screen relative flex min-h-screen">
+<div class="min-w-screen max-w-screen relative flex min-h-screen max-h-none xl:max-h-screen">
 	<div
 		class="relative z-10 flex min-h-full w-full flex-col justify-between bg-neutral-50 p-6 md:p-20 lg:w-2/3 xl:w-1/2 gap-8"
 	>
