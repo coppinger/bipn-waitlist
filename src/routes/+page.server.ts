@@ -30,8 +30,10 @@ export const load = async () => {
 	// Server API:
 	const form = await superValidate(schema);
 
+	const { count } = await supabase.from('waitlist').select('*', { count: 'exact', head: true });
+
 	// Unless you throw, always return { form } in load and form actions.
-	return { form };
+	return { form, count };
 };
 
 export const actions: Actions = {

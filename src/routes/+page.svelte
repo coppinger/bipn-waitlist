@@ -8,10 +8,12 @@
 
 	const url = $page.url;
 
-	import { tick } from 'svelte';
+	import { tick, onMount } from 'svelte';
 	import { Confetti } from 'svelte-confetti';
 	import { superForm } from 'sveltekit-superforms/client';
 	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
+
+	import Countup from 'svelte-countup';
 
 	import toast, { Toaster } from 'svelte-french-toast';
 	import { mediaQuery } from 'svelte-legos';
@@ -53,6 +55,12 @@
 			trigger();
 			toast.success(`Success, you're on the waitlist!`, { position: 'bottom-center' });
 		}
+	});
+
+	let waitlistCount: number | null = 0;
+
+	onMount(() => {
+		waitlistCount = data.count;
 	});
 </script>
 
@@ -375,7 +383,19 @@
 								</li>
 							{/each}
 						</ul>
-						<!-- <p class="text-sm font-semibold text-neutral-500">+57</p> -->
+						{#if waitlistCount}
+							<p class="text-sm font-semibold text-neutral-500">
+								+<span class="tabular-nums"
+									><Countup
+										value={waitlistCount}
+										initial={0}
+										duration={1500}
+										step={1}
+										format={true}
+									/></span
+								>
+							</p>
+						{/if}
 					</div>
 				</div>
 			{:else}
