@@ -144,7 +144,7 @@
 					<Input
 						type="email"
 						bind:value={$form.email}
-						class="h-full w-full bg-white"
+						class="text-md h-full w-full bg-white"
 						placeholder="Your best email address"
 						aria-invalid={$errors.email ? 'true' : undefined}
 						{...$constraints.email}
@@ -158,7 +158,7 @@
 										type="submit"
 										variant="default"
 										builders={[builder]}
-										class="group flex w-full shrink-0 gap-2 md:w-fit"
+										class="text-md group flex w-full shrink-0 gap-2 md:w-fit"
 										size="lg"
 									>
 										Join the waitlist <div class="relative block">
@@ -186,6 +186,7 @@
 										<div class="grid gap-2">
 											<Label for="name">Name<span class="text-red-600"> *</span></Label>
 											<Input
+												class="text-md"
 												id="name"
 												name="name"
 												bind:value={$form.name}
@@ -196,6 +197,7 @@
 										<div class="grid gap-2">
 											<Label for="twitterHandle">Twitter/X Username</Label>
 											<Input
+												class="text-md"
 												id="twitterHandle"
 												name="twitterHandle"
 												bind:value={$form.twitterHandle}
@@ -205,10 +207,16 @@
 										</div>
 										<div class="grid gap-2">
 											<Label for="email">Email<span class="text-red-600"> *</span></Label>
-											<Input type="email" id="email" name="email" bind:value={$form.email} />
+											<Input
+												class="text-md"
+												type="email"
+												id="email"
+												name="email"
+												bind:value={$form.email}
+											/>
 										</div>
 										<Input
-											class="hidden"
+											class="text-md hidden"
 											aria-hidden
 											id="refQueryParam"
 											name="refQueryParam"
@@ -217,7 +225,7 @@
 										<Button
 											type="submit"
 											variant="default"
-											class="group flex w-full shrink-0 gap-2 "
+											class="text-md group flex w-full shrink-0 gap-2"
 											size="lg"
 										>
 											Submit
@@ -244,7 +252,7 @@
 										type="submit"
 										variant="default"
 										builders={[builder]}
-										class="group flex w-full shrink-0 gap-2 md:w-fit"
+										class="text-md group flex w-full shrink-0 gap-2 md:w-fit"
 										size="lg"
 									>
 										Join the waitlist <div class="block group-hover:animate-ping">
@@ -267,6 +275,7 @@
 										<div class="grid gap-2">
 											<Label for="name">Name<span class="text-red-600"> *</span></Label>
 											<Input
+												class="text-md"
 												id="name"
 												name="name"
 												bind:value={$form.name}
@@ -277,6 +286,7 @@
 										<div class="grid gap-2">
 											<Label for="twitterHandle">Twitter/X Username</Label>
 											<Input
+												class="text-md"
 												id="twitterHandle"
 												name="twitterHandle"
 												bind:value={$form.twitterHandle}
@@ -286,10 +296,16 @@
 										</div>
 										<div class="grid gap-2">
 											<Label for="email">Email<span class="text-red-600"> *</span></Label>
-											<Input type="email" id="email" name="email" bind:value={$form.email} />
+											<Input
+												class="text-md"
+												type="email"
+												id="email"
+												name="email"
+												bind:value={$form.email}
+											/>
 										</div>
 										<Input
-											class="hidden"
+											class="text-md hidden"
 											aria-hidden
 											id="refQueryParam"
 											name="refQueryParam"
@@ -298,7 +314,7 @@
 										<Button
 											type="submit"
 											variant="default"
-											class="group flex w-full shrink-0 gap-2 "
+											class="text-md group flex w-full shrink-0 gap-2"
 											size="lg"
 										>
 											Submit
@@ -318,7 +334,7 @@
 									</form>
 									<Drawer.Footer class="pt-2">
 										<Drawer.Close asChild let:builder>
-											<Button variant="outline" builders={[builder]}>Cancel</Button>
+											<Button variant="outline" class="text-md" builders={[builder]}>Cancel</Button>
 										</Drawer.Close>
 									</Drawer.Footer>
 								</Drawer.Content>
