@@ -11,7 +11,7 @@ import { message, superValidate } from 'sveltekit-superforms/server';
 
 import { createClient } from '@supabase/supabase-js';
 
-export const supabase = createClient<Database>(PUBLIC_SUPABASE_URL, PRIVATE_SUPABASE_SERVICE_ROLE);
+const supabase = createClient<Database>(PUBLIC_SUPABASE_URL, PRIVATE_SUPABASE_SERVICE_ROLE);
 
 import { customAlphabet } from 'nanoid';
 
