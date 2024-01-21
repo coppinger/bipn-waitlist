@@ -1,9 +1,18 @@
+import { PUBLIC_SUPABASE_URL } from '$env/static/public';
+
+import { PRIVATE_SUPABASE_SERVICE_ROLE } from '$env/static/private';
+
 import type { Actions } from './$types';
+import type { Database } from '../../DatabaseDefinitions';
 
 import { fail } from '@sveltejs/kit';
 import { z } from 'zod';
 import { message, superValidate } from 'sveltekit-superforms/server';
-import { supabase } from '$lib/index';
+
+import { createClient } from '@supabase/supabase-js';
+
+export const supabase = createClient<Database>(PUBLIC_SUPABASE_URL, PRIVATE_SUPABASE_SERVICE_ROLE);
+
 import { customAlphabet } from 'nanoid';
 
 const nanoIdAlphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
