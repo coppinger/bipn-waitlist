@@ -57,15 +57,17 @@ export const actions: Actions = {
 			name: form.data.name,
 			twitter_handle: form.data.twitterHandle,
 			email: form.data.email
-		});
+		}).select();
 
 		if (error) {
 			return console.log(error);
 		}
 
-		console.log(data);
+		const refId = data[0].referral_id
+		console.log(refId);
+		
 
 		// Yep, return { form } here too
-		return { form };
+		return { form, refId };
 	}
 };

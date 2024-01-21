@@ -1,6 +1,12 @@
 <script lang="ts">
 	// Types
-	import type { PageData } from './$types';
+	import type { PageData, ActionData } from './$types';
+
+	import { page } from '$app/stores';
+
+	const url = $page.url;
+
+	console.log(url.searchParams.get('name') ? 'true' : 'false'); // John
 
 	import { tick } from 'svelte';
 	import { Confetti } from 'svelte-confetti';
@@ -12,6 +18,7 @@
 	import { cn } from '$lib/utils';
 
 	export let data: PageData;
+	// export let form: ActionData;
 
 	// Components
 	import Brand from '$lib/components/Brand.svelte';
@@ -39,6 +46,8 @@
 	const { form, errors, constraints, enhance } = superForm(data.form, {
 		resetForm: true,
 		onUpdated() {
+			console.log('test');
+
 			success = true;
 			trigger();
 			toast.success(`Success, you're on the waitlist!`, { position: 'bottom-center' });
@@ -46,9 +55,9 @@
 	});
 </script>
 
-<!-- <div class="absolute z-50 top-0 left-0 w-full h-full">
+<div class="absolute left-0 top-0 z-50 h-full w-full">
 	<SuperDebug data={$form} />
-</div> -->
+</div>
 
 {#if confetti}
 	<div
@@ -80,7 +89,7 @@
 	</div>
 {/if}
 
-<div class="min-w-screen max-w-screen flex max-h-screen min-h-screen relative">
+<div class="min-w-screen max-w-screen relative flex max-h-screen min-h-screen">
 	<div
 		class="relative z-10 flex min-h-full w-full flex-col justify-between bg-neutral-50 p-6 md:p-20 lg:w-2/3 xl:w-1/2"
 	>
@@ -319,6 +328,13 @@
 				</div>
 			{:else}
 				<p>You're in!</p>
+				<p>
+					Want to help get the word out? Share this link and if you referr more than 3 people we'll
+					feature you on the homepage for a day.
+				</p>
+				<div class="">
+					<p>{`https://buildinpublic.network/?inv=${form.refId}`}</p>
+				</div>
 			{/if}
 			<div class="w-full max-w-sm md:max-w-none">
 				<div
@@ -376,7 +392,7 @@
 		<div class="skew grid max-w-[1600px] grid-cols-3 gap-8">
 			{#each { length: 8 } as _, i}
 				<div
-					class="rounded-lg shadow-lg transition-all delay-100 ease-linear hover:scale-105 hover:shadow-2xl w-full h-full box-border border-2 border-neutral-200 border-1 border-dashed"
+					class="border-1 box-border h-full w-full rounded-lg border-2 border-dashed border-neutral-200 shadow-lg transition-all delay-100 ease-linear hover:scale-105 hover:shadow-2xl"
 				></div>
 				<img
 					class="rounded-lg shadow-lg transition-all delay-100 ease-linear hover:scale-105 hover:shadow-2xl"
@@ -384,7 +400,7 @@
 					alt=""
 				/>
 				<div
-					class="rounded-lg shadow-lg transition-all delay-100 ease-linear hover:scale-105 hover:shadow-2xl w-full h-full box-border border-2 border-neutral-200 border-1 border-dashed"
+					class="border-1 box-border h-full w-full rounded-lg border-2 border-dashed border-neutral-200 shadow-lg transition-all delay-100 ease-linear hover:scale-105 hover:shadow-2xl"
 				></div>
 			{/each}
 		</div>
