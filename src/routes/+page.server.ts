@@ -4,12 +4,15 @@ import { fail } from '@sveltejs/kit';
 import { z } from 'zod';
 import { message, superValidate } from 'sveltekit-superforms/server';
 import { supabase } from '$lib/index';
+import { customAlphabet } from 'nanoid';
+
+const nanoIdAlphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
 const schema = z.object({
 	name: z.string(),
 	email: z.string().email(),
 	twitterHandle: z.string(),
-	refQueryParam: z.string(),
+	refQueryParam: z.string()
 	// .max(15)
 	// .regex(/^[a-zA-Z0-9_]*$/)
 });
@@ -24,11 +27,12 @@ export const load = async () => {
 
 export const actions: Actions = {
 	default: async ({ request }) => {
+		const nanoid = customAlphabet(nanoIdAlphabet, 10);
+
 		const form = await superValidate(request, schema);
 		console.log('POST', form);
 
 		console.log(form.data.refQueryParam);
-		
 
 		// Convenient validation check:
 		if (!form.valid) {
@@ -57,21 +61,25 @@ export const actions: Actions = {
 			return message(form, "It looks like you're already on the waitlist!");
 		}
 
-		const { data, error } = await supabase.from('waitlist').insert({
-			name: form.data.name,
-			twitter_handle: form.data.twitterHandle,
-			email: form.data.email,
-			referred_by: form.data.refQueryParam ? form.data.refQueryParam : '',
-		}).select();
+		const { data, error } = await supabase
+			.from('waitlist')
+			.insert({
+				name: form.data.name,
+				twitter_handle: form.data.twitterHandle,
+				email: form.data.email,
+				referral_id: nanoid(),
+				referred_by: form.data.refQueryParam ? form.data.refQueryParam : ''
+			})
+			.select();
 
 		if (error) {
 			return console.log(error);
 		}
 
-		const refId = data[0].referral_id
+		const refId = data[0].referral_id;
 		console.log(refId);
-		
 
 		// Yep, return { form } here too
-	return message(form, { refId: refId });	}
+		return message(form, { refId: refId });
+	}
 };

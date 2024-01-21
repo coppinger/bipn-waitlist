@@ -25,6 +25,8 @@
 	import Input from '$lib/components/ui/input/input.svelte';
 	import Card from '$lib/components/Card.svelte';
 
+	import { ClipboardCopy } from 'lucide-svelte';
+
 	import * as Dialog from '$lib/components/ui/dialog';
 	import * as Drawer from '$lib/components/ui/drawer';
 	import { Label } from '$lib/components/ui/label';
@@ -88,9 +90,9 @@
 	</div>
 {/if}
 
-<div class="min-w-screen max-w-screen relative flex max-h-screen min-h-screen">
+<div class="min-w-screen max-w-screen relative flex min-h-screen">
 	<div
-		class="relative z-10 flex min-h-full w-full flex-col justify-between bg-neutral-50 p-6 md:p-20 lg:w-2/3 xl:w-1/2"
+		class="relative z-10 flex min-h-full w-full flex-col justify-between bg-neutral-50 p-6 md:p-20 lg:w-2/3 xl:w-1/2 gap-8"
 	>
 		<div class="flex items-center justify-between">
 			<Brand />
@@ -355,37 +357,62 @@
 						{/if}
 					</div>
 				</div>
+				<div class="w-full max-w-sm md:max-w-none">
+					<div
+						class="ml-auto flex w-fit items-center justify-center gap-4 rounded-full border border-neutral-200 px-4 py-3"
+					>
+						<div class="h-4 w-4">
+							<img src="/images/salute.png" alt="" />
+						</div>
+
+						<p class="text-sm font-semibold text-neutral-500">Already enlisted:</p>
+						<ul class="flex -space-x-2">
+							{#each { length: 5 } as _, i}
+								<li
+									class="box-content h-6 w-6 overflow-hidden rounded-full border-2 border-neutral-50"
+								>
+									<img class="h-full w-full" src={`/images/pfp-0${i + 1}.png`} alt="" />
+								</li>
+							{/each}
+						</ul>
+						<!-- <p class="text-sm font-semibold text-neutral-500">+57</p> -->
+					</div>
+				</div>
 			{:else}
-				<p>You're in!</p>
+				<div class="inline-flex gap-2 items-center">
+					<p>You're in!</p>
+					<div class="h-4 w-4"><img src="/images/salute.png" alt="An emoji salute" /></div>
+				</div>
 				<p>
-					Want to help get the word out? Share this link and if you referr more than 3 people we'll
-					feature you on the homepage for a day.
+					Use the invite link below, and anyone who joins using it will show up in a lil' family
+					tree on your profile card. Pretty cute!
 				</p>
-				<div class="">
-					<p>{`https://buildinpublic.network/?inv=${referralId}`}</p>
+
+				<div class="flex gap-2">
+					<input
+						value={`https://buildinpublic.network/?inv=${referralId}`}
+						class="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-foreground file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 !cursor-copy"
+						use:copy={`https://buildinpublic.network/?inv=${referralId}`}
+						on:click={() => {
+							toast.success('Copied to clipboard!', { position: 'bottom-center' });
+						}}
+					/>
+
+					<button
+						class="inline-flex items-center justify-center rounded-md text-sm font-medium whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 items-center justify-center gap-2 py-2"
+						use:copy={`https://buildinpublic.network/?inv=${referralId}`}
+						on:click={() => {
+							toast.success('Copied to clipboard!', { position: 'bottom-center' });
+						}}>Copy invite <ClipboardCopy size="16" /></button
+					>
+				</div>
+				<div class="shadow-lg border border-neutral-200 rounded-md overflow-hidden max-w-md">
+					<img
+						src="/images/referrals.png"
+						alt="A screenshot of the UI showing a profile card with a number next to the username, which indicates how many other users have joined under this users referral ID."
+					/>
 				</div>
 			{/if}
-			<div class="w-full max-w-sm md:max-w-none">
-				<div
-					class="ml-auto flex w-fit items-center justify-center gap-4 rounded-full border border-neutral-200 px-4 py-3"
-				>
-					<div class="h-4 w-4">
-						<img src="/images/salute.png" alt="" />
-					</div>
-
-					<p class="text-sm font-semibold text-neutral-500">Already enlisted:</p>
-					<ul class="flex -space-x-2">
-						{#each { length: 5 } as _, i}
-							<li
-								class="box-content h-6 w-6 overflow-hidden rounded-full border-2 border-neutral-50"
-							>
-								<img class="h-full w-full" src={`/images/pfp-0${i + 1}.png`} alt="" />
-							</li>
-						{/each}
-					</ul>
-					<!-- <p class="text-sm font-semibold text-neutral-500">+57</p> -->
-				</div>
-			</div>
 		</div>
 		<div class="b-neutral-200 flex w-fit items-center gap-4 rounded-full border p-4 pr-5">
 			<img
