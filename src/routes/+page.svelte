@@ -6,8 +6,6 @@
 
 	const url = $page.url;
 
-	console.log(url.searchParams.get('name') ? 'true' : 'false'); // John
-
 	import { tick } from 'svelte';
 	import { Confetti } from 'svelte-confetti';
 	import { superForm } from 'sveltekit-superforms/client';
@@ -18,7 +16,6 @@
 	import { cn } from '$lib/utils';
 
 	export let data: PageData;
-	// export let form: ActionData;
 
 	// Components
 	import Brand from '$lib/components/Brand.svelte';
@@ -35,6 +32,7 @@
 
 	let success: boolean = false;
 	let confetti: boolean = false;
+	let referralId: string = '';
 
 	async function trigger() {
 		confetti = false;
@@ -45,19 +43,18 @@
 	// Client API:
 	const { form, errors, constraints, enhance } = superForm(data.form, {
 		resetForm: true,
-		onUpdated() {
-			console.log('test');
-
+		onUpdated({ form }) {
 			success = true;
+			referralId = form.message.refId;
 			trigger();
 			toast.success(`Success, you're on the waitlist!`, { position: 'bottom-center' });
 		}
 	});
 </script>
 
-<div class="absolute left-0 top-0 z-50 h-full w-full">
+<!-- <div class="absolute left-0 top-0 z-50 h-full w-full">
 	<SuperDebug data={$form} />
-</div>
+</div> -->
 
 {#if confetti}
 	<div
@@ -210,6 +207,13 @@
 											<Label for="email">Email<span class="text-red-600"> *</span></Label>
 											<Input type="email" id="email" name="email" bind:value={$form.email} />
 										</div>
+										<Input
+											class="hidden"
+											aria-hidden
+											id="refQueryParam"
+											name="refQueryParam"
+											value={url.searchParams.get('inv')}
+										/>
 										<Button
 											type="submit"
 											variant="default"
@@ -284,6 +288,13 @@
 											<Label for="email">Email<span class="text-red-600"> *</span></Label>
 											<Input type="email" id="email" name="email" bind:value={$form.email} />
 										</div>
+										<Input
+											class="hidden"
+											aria-hidden
+											id="refQueryParam"
+											name="refQueryParam"
+											value={url.searchParams.get('inv')}
+										/>
 										<Button
 											type="submit"
 											variant="default"
@@ -333,7 +344,7 @@
 					feature you on the homepage for a day.
 				</p>
 				<div class="">
-					<p>{`https://buildinpublic.network/?inv=${form.refId}`}</p>
+					<p>{`https://buildinpublic.network/?inv=${referralId}`}</p>
 				</div>
 			{/if}
 			<div class="w-full max-w-sm md:max-w-none">
