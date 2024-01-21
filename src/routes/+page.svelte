@@ -4,6 +4,8 @@
 
 	import { page } from '$app/stores';
 
+	import { copy } from 'svelte-copy';
+
 	const url = $page.url;
 
 	import { tick } from 'svelte';
