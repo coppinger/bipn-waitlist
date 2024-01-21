@@ -400,19 +400,19 @@
 	<div
 		class="lg:1/3 hidden items-center justify-center overflow-hidden bg-neutral-100 lg:flex xl:w-1/2"
 	>
-		<div class="skew grid max-w-[1600px] grid-cols-3 gap-8">
+		<div class="skew grid max-w-[4000px] grid-cols-2 gap-8">
 			{#each { length: 8 } as _, i}
-				<div
+				<!-- <div
 					class="border-1 box-border h-full w-full rounded-lg border-2 border-dashed border-neutral-200 shadow-lg transition-all delay-100 ease-linear hover:scale-105 hover:shadow-2xl"
-				></div>
+				></div> -->
 				<img
 					class="rounded-lg shadow-lg transition-all delay-100 ease-linear hover:scale-105 hover:shadow-2xl"
 					src={`/images/profile-card-stripped-${i + 1}.png`}
 					alt=""
 				/>
-				<div
+				<!-- <div
 					class="border-1 box-border h-full w-full rounded-lg border-2 border-dashed border-neutral-200 shadow-lg transition-all delay-100 ease-linear hover:scale-105 hover:shadow-2xl"
-				></div>
+				></div> -->
 			{/each}
 		</div>
 	</div>
