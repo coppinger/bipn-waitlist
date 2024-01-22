@@ -436,7 +436,9 @@
 				</div>
 			{/if}
 		</div>
-		<div class="b-neutral-200 flex w-fit items-center gap-4 rounded-full border p-4 pr-5">
+		<div
+			class="md:b-neutral-200 mx-auto md:mx-0 flex w-fit items-center gap-4 rounded-full md:border p-4 pr-5 md:flex-row flex-col"
+		>
 			<img
 				src="/images/charlie-pfp.png"
 				class="h-8 w-8 rounded-full"
@@ -445,8 +447,8 @@
 			<a
 				href="https://clips.twitch.tv/TenderTenaciousOrangeTinyFace-viSaxu39fnga-uxb"
 				target="_blank"
-				class="flex items-center justify-center gap-2 text-sm font-semibold text-neutral-500"
-				>Built in public, live on X & Twitch, by <span class="underline underline-offset-2"
+				class="flex items-center justify-center gap-2 text-sm font-semibold text-neutral-500 whitespace-nowrap"
+				>Built in public, live on Twitch, by <span class=" underline underline-offset-2"
 					>Charlie</span
 				>
 				<svg
