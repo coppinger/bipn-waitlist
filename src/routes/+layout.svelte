@@ -6,7 +6,10 @@
 <svelte:head>
 	<title>Build in Public Network</title>
 	<meta name="title" content="Build in Public Network" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta
+		name="viewport"
+		content="width=device-width, initial-scale=1, interactive-widget=resizes-content"
+	/>
 	<meta
 		name="description"
 		content="Discover creators who are sharing their journey with the world—a curated list & community of indie hackers and founders who are building in public"

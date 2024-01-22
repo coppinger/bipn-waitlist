@@ -158,6 +158,8 @@
 						bind:value={$form.email}
 						class="text-md h-full w-full bg-white"
 						placeholder="Your best email address"
+						autocomplete="email"
+						name="email"
 						aria-invalid={$errors.email ? 'true' : undefined}
 						{...$constraints.email}
 					/>
