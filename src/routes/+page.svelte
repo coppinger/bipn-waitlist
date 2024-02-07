@@ -375,7 +375,7 @@
 							<img src="/images/salute.png" alt="" />
 						</div>
 
-						<p class="text-sm font-semibold text-neutral-500">Already enlisted:</p>
+						<p class="text-xs font-semibold text-neutral-500">Already enlisted:</p>
 						<ul class="flex -space-x-2">
 							{#each { length: 5 } as _, i}
 								<li
